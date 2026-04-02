@@ -1,15 +1,19 @@
-# Myrepo
+# Mr-Robot
 ![Mr. Robot Banner](assets/banner.jpg)
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/status-active-success)
-![Platform](https://img.shields.io/badge/platform-iSH%20%7C%20iPhone%20%7C%20GitHub-blue)
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+  <img src="https://img.shields.io/badge/status-active-success" alt="Status">
+  <img src="https://img.shields.io/badge/platform-iSH%20%7C%20iPhone%20%7C%20GitHub-blue" alt="Platform">
+</p>
 
-A professional project repository created and managed from iPhone using iSH, Git, and GitHub.
+<p align="center">
+  <b>Built and managed from iPhone using iSH, Git, and GitHub.</b>
+</p>
 
 ## Overview
 
-Myrepo is a clean, well-structured repository designed for building, documenting, and maintaining projects professionally.
+Mr-Robot is a clean, well-structured repository designed for building, documenting, and maintaining projects professionally.
 
 ## Features
 
@@ -22,13 +26,22 @@ Myrepo is a clean, well-structured repository designed for building, documenting
 ## Project Structure
 
 ```text
-Myrepo/
-├── README.md
-├── LICENSE
-├── .gitignore
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── docs/
-├── src/
-├── assets/
-└── examples/
+Mr-Robot/
+b
+bash: README.md: not found
+b
+bash: LICENSE: not found
+b
+bash: .gitignore: not found
+b
+bash: CHANGELOG.md: not found
+b
+bash: CONTRIBUTING.md: not found
+b
+bash: docs/: I/O error
+b
+bash: src/: I/O error
+b
+bash: assets/: I/O error
+bb
+ examples/
