@@ -8,7 +8,7 @@ A professional project repository created and managed from iPhone using iSH, Git
 
 ## Overview
 
-Myrepo is a clean, well-structured repository designed for building, documenting, and maintaining projects professionally. It can be used as a base for apps, scripts, tools, experiments, or production-ready utilities.
+Myrepo is a clean, well-structured repository designed for building, documenting, and maintaining projects professionally.
 
 ## Features
 
