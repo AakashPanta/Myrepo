@@ -22,21 +22,12 @@ Myrepo is a clean, well-structured repository designed for building, documenting
 
 ```text
 Myrepo/
-b
-bash: README.md: not found
-b
-bash: LICENSE: not found
-b
-bash: .gitignore: not found
-b
-bash: CHANGELOG.md: not found
-b
-bash: CONTRIBUTING.md: not found
-b
-bash: docs/: I/O error
-b
-bash: src/: I/O error
-b
-bash: assets/: I/O error
-bb
- examples/
+├── README.md
+├── LICENSE
+├── .gitignore
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── docs/
+├── src/
+├── assets/
+└── examples/
