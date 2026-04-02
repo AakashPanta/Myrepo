@@ -1,4 +1,5 @@
 # Myrepo
+![Mr. Robot Banner](assets/banner.jpg)
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Status](https://img.shields.io/badge/status-active-success)
