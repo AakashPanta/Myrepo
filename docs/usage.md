@@ -27,7 +27,7 @@ pytest
 ## Expected default output
 
 ```text
-Mr-Robot project initialized. Version: 8.0.0
+Mr-Robot project initialized. Version: 8.2.0
 Environment: development
 Debug: False
 ```
@@ -35,7 +35,7 @@ Debug: False
 ## Expected override output
 
 ```text
-Mr-Robot project initialized. Version: 8.0.0
+Mr-Robot project initialized. Version: 8.2.0
 Environment: production
 Debug: True
 ```
