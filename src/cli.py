@@ -1,3 +1,4 @@
+import os
 import sys
 from src.main import main
 from src.version import __version__
@@ -30,10 +31,23 @@ def info():
 
 
 def status():
-    print("Mr-Robot status: active")
-    print("Tests: available")
-    print("CLI: enabled")
-    print("Documentation: available")
+    checks = {
+        "Source": os.path.exists("src/main.py"),
+        "CLI": os.path.exists("src/cli.py"),
+        "Tests": os.path.exists("tests/test_main.py"),
+        "Docs": os.path.exists("docs/usage.md"),
+        "Roadmap": os.path.exists("docs/roadmap.md"),
+        "Architecture": os.path.exists("docs/architecture.md"),
+        "Requirements": os.path.exists("requirements.txt"),
+        "Makefile": os.path.exists("Makefile"),
+    }
+
+    print("Mr-Robot status")
+    print("")
+
+    for name, ok in checks.items():
+        state = "OK" if ok else "MISSING"
+        print(f"{name}: {state}")
 
 
 if __name__ == "__main__":
