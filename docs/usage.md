@@ -6,6 +6,12 @@
 python src/main.py
 ```
 
+## Run tests
+
+```bash
+pytest
+```
+
 ## Expected output
 
 ```text
