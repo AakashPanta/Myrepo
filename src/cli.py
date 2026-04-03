@@ -18,6 +18,7 @@ def show_help():
     print("  python3 -m src.cli status-json")
     print("  python3 -m src.cli config")
     print("  python3 -m src.cli init")
+    print("  python3 -m src.cli doctor")
     print("  python3 -m src.cli help")
 
 
@@ -82,6 +83,39 @@ def init():
     print("Created: data/, logs/")
 
 
+def doctor():
+    checks = {
+        "src/main.py": os.path.exists("src/main.py"),
+        "src/cli.py": os.path.exists("src/cli.py"),
+        "src/config.py": os.path.exists("src/config.py"),
+        "src/version.py": os.path.exists("src/version.py"),
+        "tests/test_main.py": os.path.exists("tests/test_main.py"),
+        "tests/test_version.py": os.path.exists("tests/test_version.py"),
+        "docs/usage.md": os.path.exists("docs/usage.md"),
+        "docs/installation.md": os.path.exists("docs/installation.md"),
+        "requirements.txt": os.path.exists("requirements.txt"),
+        "Makefile": os.path.exists("Makefile"),
+        ".env.example": os.path.exists(".env.example"),
+    }
+
+    print("Mr-Robot doctor")
+    print("")
+
+    failed = []
+
+    for name, ok in checks.items():
+        state = "OK" if ok else "MISSING"
+        print(f"{name}: {state}")
+        if not ok:
+            failed.append(name)
+
+    print("")
+    if failed:
+        print("Doctor result: issues found")
+    else:
+        print("Doctor result: all checks passed")
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         show_help()
@@ -102,6 +136,8 @@ if __name__ == "__main__":
             config()
         elif command == "init":
             init()
+        elif command == "doctor":
+            doctor()
         elif command == "help":
             show_help()
         else:
