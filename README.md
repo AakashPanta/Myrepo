@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
   <img src="https://img.shields.io/badge/status-active-success" alt="Status">
   <img src="https://img.shields.io/badge/platform-iSH%20%7C%20iPhone%20%7C%20GitHub-blue" alt="Platform">
-  <img src="https://img.shields.io/badge/version-v1.0.0-black" alt="Version">
+  <img src="https://img.shields.io/badge/version-v8.0.0-black" alt="Version">
 </p>
 
 ---
@@ -39,30 +39,40 @@ It provides a solid foundation for organized implementation, future expansion, a
 - GitHub-ready project organization
 - Mobile-first development workflow using iPhone and iSH
 - Versioned release flow with Git tags
+- CLI entrypoint and test coverage included
 
 ## Repository Structure
 
 ```text
 Mr-Robot/
-├── README.md
-├── LICENSE
+├── .github/
+├── assets/
+├── docs/
+│   ├── architecture.md
+│   ├── index.md
+│   ├── installation.md
+│   ├── roadmap.md
+│   └── usage.md
+├── examples/
+│   └── example_output.txt
+├── src/
+│   ├── __init__.py
+│   ├── cli.py
+│   ├── main.py
+│   └── version.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_main.py
+│   └── test_version.py
+├── .editorconfig
+├── .env.example
 ├── .gitignore
 ├── CHANGELOG.md
-├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── Makefile
+├── pyproject.toml
+├── README.md
 ├── SECURITY.md
-├── docs/
-├── src/
-├── assets/
-├── examples/
-└── .github/
-
-## Documentation
-
-- [Installation](docs/installation.md)
-- [Usage](docs/usage.md)
-- [Architecture](docs/architecture.md)
-- [Roadmap](docs/roadmap.md)
-- [Changelog](CHANGELOG.md)
-- [Contributing](CONTRIBUTING.md)
-- [Security Policy](SECURITY.md)
+└── requirements.txt

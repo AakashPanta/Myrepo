@@ -1,8 +1,11 @@
 run:
-python src/main.py
+	python3 -m src.main
+
+cli:
+	python3 -m src.cli
 
 test:
-pytest
+	pytest
 
 install:
-pip install -r requirements.txt
+	pip install -r requirements.txt

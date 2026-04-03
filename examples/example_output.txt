@@ -1,1 +1,1 @@
-Mr-Robot project initialized.
+Mr-Robot project initialized. Version: 8.0.0

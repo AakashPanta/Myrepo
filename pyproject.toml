@@ -1,0 +1,10 @@
+[project]
+name = "mr-robot"
+version = "8.0.0"
+description = "Mr-Robot project repository"
+readme = "README.md"
+requires-python = ">=3.9"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
