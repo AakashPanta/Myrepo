@@ -1,7 +1,9 @@
+
 import os
 import sys
 from src.main import main
 from src.version import __version__
+from src.config import load_config
 
 
 def show_help():
@@ -12,6 +14,7 @@ def show_help():
     print("  python3 -m src.cli version")
     print("  python3 -m src.cli info")
     print("  python3 -m src.cli status")
+    print("  python3 -m src.cli config")
     print("  python3 -m src.cli help")
 
 
@@ -50,6 +53,14 @@ def status():
         print(f"{name}: {state}")
 
 
+def config():
+    values = load_config()
+    print("Mr-Robot configuration")
+    print("")
+    for key, value in values.items():
+        print(f"{key}: {value}")
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         show_help()
@@ -64,6 +75,8 @@ if __name__ == "__main__":
             info()
         elif command == "status":
             status()
+        elif command == "config":
+            config()
         elif command == "help":
             show_help()
         else:
