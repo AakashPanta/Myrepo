@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
   <img src="https://img.shields.io/badge/status-active-success" alt="Status">
   <img src="https://img.shields.io/badge/platform-iSH%20%7C%20iPhone%20%7C%20GitHub-blue" alt="Platform">
-  <img src="https://img.shields.io/badge/version-v8.0.0-black" alt="Version">
+  <img src="https://img.shields.io/badge/version-v8.1.0-black" alt="Version">
 </p>
 
 ---
