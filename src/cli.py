@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 from pathlib import Path
@@ -14,6 +15,7 @@ def show_help():
     print("  python3 -m src.cli version")
     print("  python3 -m src.cli info")
     print("  python3 -m src.cli status")
+    print("  python3 -m src.cli status-json")
     print("  python3 -m src.cli config")
     print("  python3 -m src.cli init")
     print("  python3 -m src.cli help")
@@ -34,8 +36,8 @@ def info():
     print("Type: Structured Python project repository")
 
 
-def status():
-    checks = {
+def get_status_checks():
+    return {
         "Source": os.path.exists("src/main.py"),
         "CLI": os.path.exists("src/cli.py"),
         "Tests": os.path.exists("tests/test_main.py"),
@@ -46,12 +48,21 @@ def status():
         "Makefile": os.path.exists("Makefile"),
     }
 
+
+def status():
+    checks = get_status_checks()
+
     print("Mr-Robot status")
     print("")
 
     for name, ok in checks.items():
         state = "OK" if ok else "MISSING"
         print(f"{name}: {state}")
+
+
+def status_json():
+    checks = get_status_checks()
+    print(json.dumps(checks, indent=2))
 
 
 def config():
@@ -85,6 +96,8 @@ if __name__ == "__main__":
             info()
         elif command == "status":
             status()
+        elif command == "status-json":
+            status_json()
         elif command == "config":
             config()
         elif command == "init":
