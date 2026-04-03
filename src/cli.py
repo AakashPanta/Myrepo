@@ -1,6 +1,6 @@
-
 import os
 import sys
+from pathlib import Path
 from src.main import main
 from src.version import __version__
 from src.config import load_config
@@ -15,6 +15,7 @@ def show_help():
     print("  python3 -m src.cli info")
     print("  python3 -m src.cli status")
     print("  python3 -m src.cli config")
+    print("  python3 -m src.cli init")
     print("  python3 -m src.cli help")
 
 
@@ -61,6 +62,15 @@ def config():
         print(f"{key}: {value}")
 
 
+def init():
+    Path("data").mkdir(exist_ok=True)
+    Path("logs").mkdir(exist_ok=True)
+    Path("data/.gitkeep").touch(exist_ok=True)
+    Path("logs/.gitkeep").touch(exist_ok=True)
+    print("Mr-Robot initialization complete.")
+    print("Created: data/, logs/")
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         show_help()
@@ -77,6 +87,8 @@ if __name__ == "__main__":
             status()
         elif command == "config":
             config()
+        elif command == "init":
+            init()
         elif command == "help":
             show_help()
         else:
