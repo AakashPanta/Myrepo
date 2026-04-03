@@ -1,1 +1,3 @@
 Mr-Robot project initialized. Version: 8.0.0
+Environment: development
+Debug: False
