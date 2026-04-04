@@ -20,6 +20,7 @@ def show_help():
     print("  python3 -m src.cli init")
     print("  python3 -m src.cli doctor")
     print("  python3 -m src.cli bootstrap <project-name> <template>")
+    print("  python3 -m src.cli bootstrap-json <project-name> <template>")
     print("  python3 -m src.cli help")
     print("")
     print("Templates:")
@@ -332,30 +333,23 @@ def bootstrap_automation_tool(base: Path, project_name: str):
     created.append("docs/usage.md")
 
     return created
-
-
-def print_bootstrap_summary(project_name: str, template_name: str, created_items):
-    print(f"Bootstrap complete: {project_name}")
-    print(f"Template used: {template_name}")
-    print("")
-    print("Created items:")
-    for item in created_items:
-        print(f"  - {item}")
-
-
-def bootstrap(project_name: str, template_name: str):
+def build_bootstrap_result(project_name: str, template_name: str):
     templates = {"python-cli", "python-library", "docs", "automation-tool"}
 
     if template_name not in templates:
-        print(f"Unknown template: {template_name}")
-        print("Available templates: python-cli, python-library, docs, automation-tool")
-        return
+        return {
+            "ok": False,
+            "error": f"Unknown template: {template_name}",
+            "available_templates": ["python-cli", "python-library", "docs", "automation-tool"],
+        }
 
     base = Path(project_name)
 
     if base.exists():
-        print(f"Project already exists: {project_name}")
-        return
+        return {
+            "ok": False,
+            "error": f"Project already exists: {project_name}",
+        }
 
     base.mkdir()
     created_items = [f"{project_name}/"]
@@ -370,9 +364,37 @@ def bootstrap(project_name: str, template_name: str):
     elif template_name == "automation-tool":
         created_items.extend(bootstrap_automation_tool(base, project_name))
 
-    print_bootstrap_summary(project_name, template_name, created_items)
+    return {
+        "ok": True,
+        "project_name": project_name,
+        "template": template_name,
+        "created_items": created_items,
+    }
 
 
+def print_bootstrap_summary(result):
+    if not result["ok"]:
+        print(result["error"])
+        if "available_templates" in result:
+            print("Available templates: " + ", ".join(result["available_templates"]))
+        return
+
+    print(f"Bootstrap complete: {result['project_name']}")
+    print(f"Template used: {result['template']}")
+    print("")
+    print("Created items:")
+    for item in result["created_items"]:
+        print(f"  - {item}")
+
+
+def bootstrap(project_name: str, template_name: str):
+    result = build_bootstrap_result(project_name, template_name)
+    print_bootstrap_summary(result)
+
+
+def bootstrap_json(project_name: str, template_name: str):
+    result = build_bootstrap_result(project_name, template_name)
+    print(json.dumps(result, indent=2))
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         show_help()
@@ -401,6 +423,12 @@ if __name__ == "__main__":
                 print("Available templates: python-cli, python-library, docs, automation-tool")
             else:
                 bootstrap(sys.argv[2], sys.argv[3])
+        elif command == "bootstrap-json":
+            if len(sys.argv) < 4:
+                print("Usage: python3 -m src.cli bootstrap-json <project-name> <template>")
+                print("Available templates: python-cli, python-library, docs, automation-tool")
+            else:
+                bootstrap_json(sys.argv[2], sys.argv[3])
         elif command == "help":
             show_help()
         else:
