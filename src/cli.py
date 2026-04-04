@@ -21,6 +21,7 @@ def show_help():
     print("  python3 -m src.cli doctor")
     print("  python3 -m src.cli bootstrap <project-name> <template>")
     print("  python3 -m src.cli bootstrap-json <project-name> <template>")
+    print("  python3 -m src.cli bootstrap-doctor <project-path>")
     print("  python3 -m src.cli help")
     print("")
     print("Templates:")
@@ -395,6 +396,42 @@ def bootstrap(project_name: str, template_name: str):
 def bootstrap_json(project_name: str, template_name: str):
     result = build_bootstrap_result(project_name, template_name)
     print(json.dumps(result, indent=2))
+
+def bootstrap_doctor(project_path: str):
+    base = Path(project_path)
+
+    if not base.exists() or not base.is_dir():
+        print(f"Project path not found: {project_path}")
+        return
+
+    checks = {
+        "README.md": (base / "README.md").exists(),
+        "docs/": (base / "docs").exists(),
+        "assets/": (base / "assets").exists(),
+        "examples/": (base / "examples").exists(),
+        ".env.example": (base / ".env.example").exists(),
+        "requirements.txt": (base / "requirements.txt").exists(),
+        "Makefile": (base / "Makefile").exists(),
+    }
+
+    print(f"Bootstrap doctor: {project_path}")
+    print("")
+
+    failed = []
+
+    for name, ok in checks.items():
+        state = "OK" if ok else "MISSING"
+        print(f"{name}: {state}")
+        if not ok:
+            failed.append(name)
+
+    print("")
+    if failed:
+        print("Bootstrap doctor result: issues found")
+    else:
+        print("Bootstrap doctor result: all core checks passed")
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         show_help()
@@ -429,8 +466,48 @@ if __name__ == "__main__":
                 print("Available templates: python-cli, python-library, docs, automation-tool")
             else:
                 bootstrap_json(sys.argv[2], sys.argv[3])
+        elif command == "bootstrap-doctor":
+            if len(sys.argv) < 3:
+                print("Usage: python3 -m src.cli bootstrap-doctor <project-path>")
+            else:
+                bootstrap_doctor(sys.argv[2])
         elif command == "help":
             show_help()
         else:
             print(f"Unknown command: {command}")
             show_help()
+
+
+def bootstrap_doctor(project_path: str):
+    base = Path(project_path)
+
+    if not base.exists() or not base.is_dir():
+        print(f"Project path not found: {project_path}")
+        return
+
+    checks = {
+        "README.md": (base / "README.md").exists(),
+        "docs/": (base / "docs").exists(),
+        "assets/": (base / "assets").exists(),
+        "examples/": (base / "examples").exists(),
+        ".env.example": (base / ".env.example").exists(),
+        "requirements.txt": (base / "requirements.txt").exists(),
+        "Makefile": (base / "Makefile").exists(),
+    }
+
+    print(f"Bootstrap doctor: {project_path}")
+    print("")
+
+    failed = []
+
+    for name, ok in checks.items():
+        state = "OK" if ok else "MISSING"
+        print(f"{name}: {state}")
+        if not ok:
+            failed.append(name)
+
+    print("")
+    if failed:
+        print("Bootstrap doctor result: issues found")
+    else:
+        print("Bootstrap doctor result: all core checks passed")
