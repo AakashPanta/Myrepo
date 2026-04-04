@@ -19,6 +19,7 @@ def show_help():
     print("  python3 -m src.cli config")
     print("  python3 -m src.cli init")
     print("  python3 -m src.cli doctor")
+    print("  python3 -m src.cli bootstrap <project-name>")
     print("  python3 -m src.cli help")
 
 
@@ -35,8 +36,6 @@ def info():
     print(f"Version: {__version__}")
     print("Platform: iPhone + iSH + GitHub")
     print("Type: Structured Python project repository")
-
-
 def get_status_checks():
     return {
         "Source": os.path.exists("src/main.py"),
@@ -52,10 +51,8 @@ def get_status_checks():
 
 def status():
     checks = get_status_checks()
-
     print("Mr-Robot status")
     print("")
-
     for name, ok in checks.items():
         state = "OK" if ok else "MISSING"
         print(f"{name}: {state}")
@@ -81,8 +78,6 @@ def init():
     Path("logs/.gitkeep").touch(exist_ok=True)
     print("Mr-Robot initialization complete.")
     print("Created: data/, logs/")
-
-
 def doctor():
     checks = {
         "src/main.py": os.path.exists("src/main.py"),
@@ -116,6 +111,36 @@ def doctor():
         print("Doctor result: all checks passed")
 
 
+def bootstrap(project_name):
+    base = Path(project_name)
+
+    if base.exists():
+        print(f"Project already exists: {project_name}")
+        return
+
+    (base / "src").mkdir(parents=True)
+    (base / "tests").mkdir()
+    (base / "docs").mkdir()
+    (base / "examples").mkdir()
+    (base / "assets").mkdir()
+
+    (base / "README.md").write_text(f"# {project_name}\n")
+    (base / "requirements.txt").write_text("pytest\n")
+    (base / ".env.example").write_text("APP_ENV=development\nAPP_DEBUG=false\n")
+    (base / "Makefile").write_text(
+        "run:\n\tpython3 -m src.main\n\n"
+        "test:\n\tpytest\n"
+    )
+    (base / "src" / "__init__.py").write_text("")
+    (base / "src" / "main.py").write_text(
+        "def main():\n"
+        f"    print({project_name!r} + ' initialized.')\n\n"
+        "if __name__ == '__main__':\n"
+        "    main()\n"
+    )
+    (base / "tests" / "__init__.py").write_text("")
+    (base / "docs" / "usage.md").write_text(f"# Usage\n\nProject: {project_name}\n")
+    print(f"Bootstrap complete: {project_name}")
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         show_help()
@@ -138,6 +163,11 @@ if __name__ == "__main__":
             init()
         elif command == "doctor":
             doctor()
+        elif command == "bootstrap":
+            if len(sys.argv) < 3:
+                print("Usage: python3 -m src.cli bootstrap <project-name>")
+            else:
+                bootstrap(sys.argv[2])
         elif command == "help":
             show_help()
         else:
