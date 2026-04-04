@@ -21,7 +21,7 @@ def show_help():
     print("  python3 -m src.cli doctor")
     print("  python3 -m src.cli bootstrap <project-name> <template>")
     print("  python3 -m src.cli bootstrap-json <project-name> <template>")
-    print("  python3 -m src.cli bootstrap-doctor <project-path>")
+    print("  python3 -m src.cli bootstrap-doctor <project-path> [template]")
     print("  python3 -m src.cli help")
     print("")
     print("Templates:")
@@ -397,24 +397,83 @@ def bootstrap_json(project_name: str, template_name: str):
     result = build_bootstrap_result(project_name, template_name)
     print(json.dumps(result, indent=2))
 
-def bootstrap_doctor(project_path: str):
+def get_template_expected_files(template_name: str):
+    common = [
+        "README.md",
+        "docs/",
+        "assets/",
+        "examples/",
+        ".env.example",
+        "requirements.txt",
+        "Makefile",
+    ]
+
+    template_map = {
+        "python-cli": common + [
+            "src/",
+            "src/__init__.py",
+            "src/main.py",
+            "tests/",
+            "tests/__init__.py",
+            "tests/test_main.py",
+            "docs/usage.md",
+        ],
+        "python-library": common + [
+            "src/",
+            "src/__init__.py",
+            "src/core.py",
+            "tests/",
+            "tests/__init__.py",
+            "tests/test_core.py",
+            "docs/usage.md",
+            "pyproject.toml",
+        ],
+        "docs": common + [
+            "docs/index.md",
+            "docs/usage.md",
+        ],
+        "automation-tool": common + [
+            "src/",
+            "src/__init__.py",
+            "src/main.py",
+            "tests/",
+            "tests/__init__.py",
+            "tests/test_main.py",
+            "data/",
+            "data/.gitkeep",
+            "logs/",
+            "logs/.gitkeep",
+            "docs/usage.md",
+        ],
+    }
+
+    return template_map.get(template_name, common)
+
+
+def bootstrap_doctor(project_path: str, template_name: str = ""):
     base = Path(project_path)
 
     if not base.exists() or not base.is_dir():
         print(f"Project path not found: {project_path}")
         return
 
-    checks = {
-        "README.md": (base / "README.md").exists(),
-        "docs/": (base / "docs").exists(),
-        "assets/": (base / "assets").exists(),
-        "examples/": (base / "examples").exists(),
-        ".env.example": (base / ".env.example").exists(),
-        "requirements.txt": (base / "requirements.txt").exists(),
-        "Makefile": (base / "Makefile").exists(),
-    }
+    expected_files = get_template_expected_files(template_name) if template_name else [
+        "README.md",
+        "docs/",
+        "assets/",
+        "examples/",
+        ".env.example",
+        "requirements.txt",
+        "Makefile",
+    ]
+
+    checks = {}
+    for item in expected_files:
+        checks[item] = (base / item.rstrip("/")).exists()
 
     print(f"Bootstrap doctor: {project_path}")
+    if template_name:
+        print(f"Template: {template_name}")
     print("")
 
     failed = []
@@ -429,7 +488,7 @@ def bootstrap_doctor(project_path: str):
     if failed:
         print("Bootstrap doctor result: issues found")
     else:
-        print("Bootstrap doctor result: all core checks passed")
+        print("Bootstrap doctor result: all checks passed")
 
 
 if __name__ == "__main__":
@@ -468,7 +527,9 @@ if __name__ == "__main__":
                 bootstrap_json(sys.argv[2], sys.argv[3])
         elif command == "bootstrap-doctor":
             if len(sys.argv) < 3:
-                print("Usage: python3 -m src.cli bootstrap-doctor <project-path>")
+                print("Usage: python3 -m src.cli bootstrap-doctor <project-path> [template]")
+            elif len(sys.argv) >= 4:
+                bootstrap_doctor(sys.argv[2], sys.argv[3])
             else:
                 bootstrap_doctor(sys.argv[2])
         elif command == "help":
