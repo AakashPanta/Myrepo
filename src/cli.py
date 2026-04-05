@@ -22,6 +22,7 @@ def show_help():
     print("  python3 -m src.cli bootstrap <project-name> <template>")
     print("  python3 -m src.cli bootstrap-json <project-name> <template>")
     print("  python3 -m src.cli bootstrap-doctor <project-path> [template]")
+    print("  python3 -m src.cli list-templates")
     print("  python3 -m src.cli help")
     print("")
     print("Templates:")
@@ -29,6 +30,21 @@ def show_help():
     print("  python-library")
     print("  docs")
     print("  automation-tool")
+
+
+def list_templates():
+    templates = {
+        "python-cli": "CLI-style Python project with main entry point and tests",
+        "python-library": "Reusable Python library with core module and pyproject",
+        "docs": "Documentation-first repository with docs index and usage pages",
+        "automation-tool": "Automation project with src, tests, data, and logs",
+    }
+
+    print("Available templates")
+    print("")
+
+    for name, description in templates.items():
+        print(f"{name}: {description}")
 
 
 def run():
@@ -532,6 +548,8 @@ if __name__ == "__main__":
                 bootstrap_doctor(sys.argv[2], sys.argv[3])
             else:
                 bootstrap_doctor(sys.argv[2])
+        elif command == "list-templates":
+            list_templates()
         elif command == "help":
             show_help()
         else:
